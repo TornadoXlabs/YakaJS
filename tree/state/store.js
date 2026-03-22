@@ -20,7 +20,7 @@
         
         // Execute plugin code
             // ==================== 5. ADVANCED STATE MANAGEMENT (STORE) ====================
-        
+
             Yaka.Store = class {
                 constructor(options = {}) {
                     this._state = options.state || {};
@@ -42,7 +42,7 @@
                     // Save initial state
                     this._saveHistory();
                 }
-        
+
                 _makeReactive() {
                     const self = this;
                     this.state = new Proxy(this._state, {
@@ -57,17 +57,17 @@
                         }
                     });
                 }
-        
+
                 _notify(mutation) {
                     this._subscribers.forEach(fn => fn(mutation, this.state));
                 }
-        
+
                 _saveHistory() {
                     // Remove future history if we've time-traveled
                     if (this._historyIndex < this._history.length - 1) {
                         this._history = this._history.slice(0, this._historyIndex + 1);
                     }
-        
+
                     // Add current state to history
                     this._history.push(JSON.parse(JSON.stringify(this._state)));
                     
@@ -78,7 +78,7 @@
                         this._historyIndex++;
                     }
                 }
-        
+
                 // Getters
                 get(name) {
                     const getter = this._getters[name];
@@ -88,7 +88,7 @@
                     }
                     return getter(this.state, this._getters);
                 }
-        
+
                 // Mutations (synchronous state changes)
                 commit(type, payload) {
                     const mutation = this._mutations[type];
@@ -96,13 +96,13 @@
                         Yaka._log('error', `Mutation not found: ${type}`);
                         return;
                     }
-        
+
                     Yaka._log('info', `Mutation: ${type}`, payload);
                     mutation(this._state, payload);
                     this._notify({ type: 'mutation', mutation: type, payload });
                     this._saveHistory();
                 }
-        
+
                 // Actions (can be asynchronous)
                 async dispatch(type, payload) {
                     const action = this._actions[type];
@@ -110,7 +110,7 @@
                         Yaka._log('error', `Action not found: ${type}`);
                         return;
                     }
-        
+
                     Yaka._log('info', `Action: ${type}`, payload);
                     const context = {
                         state: this.state,
@@ -118,10 +118,10 @@
                         dispatch: this.dispatch.bind(this),
                         getters: this._getters
                     };
-        
+
                     return action(context, payload);
                 }
-        
+
                 // Subscribe to state changes
                 subscribe(fn) {
                     this._subscribers.push(fn);
@@ -132,7 +132,7 @@
                         }
                     };
                 }
-        
+
                 // Watch specific state property
                 watch(key, callback) {
                     return this.subscribe((mutation, state) => {
@@ -141,35 +141,35 @@
                         }
                     });
                 }
-        
+
                 // Time travel debugging
                 timeTravel(index) {
                     if (index < 0 || index >= this._history.length) {
                         Yaka._log('warn', 'Invalid history index');
                         return;
                     }
-        
+
                     this._historyIndex = index;
                     this._state = JSON.parse(JSON.stringify(this._history[index]));
                     this._makeReactive();
                     this._notify({ type: 'timeTravel', index });
                     Yaka._log('info', `Time traveled to state #${index}`);
                 }
-        
+
                 // Undo last mutation
                 undo() {
                     if (this._historyIndex > 0) {
                         this.timeTravel(this._historyIndex - 1);
                     }
                 }
-        
+
                 // Redo mutation
                 redo() {
                     if (this._historyIndex < this._history.length - 1) {
                         this.timeTravel(this._historyIndex + 1);
                     }
                 }
-        
+
                 // Persist state to storage
                 persist(key = 'yaka-store') {
                     try {
@@ -179,7 +179,7 @@
                         Yaka._log('error', 'Failed to persist state:', error);
                     }
                 }
-        
+
                 // Restore state from storage
                 restore(key = 'yaka-store') {
                     try {
@@ -195,10 +195,10 @@
                     }
                 }
             };
-        
+
             // Create store helper
             Yaka.createStore = (options) => new Yaka.Store(options);
-        
+
     };
     
     // Auto-register if Yaka is available

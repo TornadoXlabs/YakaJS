@@ -34,4 +34,3 @@
             }
             return this.each((i, elem) => elem.dataset[key] = value);
         },
-

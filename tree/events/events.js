@@ -21,7 +21,7 @@
         // Add methods to Yaka prototype
         Object.assign(Yaka.prototype, {
                     // ==================== EVENTS ====================
-            
+
                     /**
                      * Attach an event handler to elements
                      * @param {string} event - Event type (e.g., 'click', 'mouseenter')
@@ -50,7 +50,7 @@
                             handler = selector;
                             selector = null;
                         }
-            
+
                         return this.each((i, elem) => {
                             if (selector) {
                                 // Create wrapper function
@@ -80,7 +80,7 @@
                             }
                         });
                     },
-            
+
                     off: function (event, selector, handler) {
                         // Support both 2 and 3 argument forms for backward compatibility
                         if (typeof selector === 'function') {
@@ -107,14 +107,14 @@
                             }
                         });
                     },
-            
+
                     // NEW! One-time event
                     once: function (event, handler) {
                         return this.each((i, elem) => {
                             elem.addEventListener(event, handler, { once: true });
                         });
                     },
-            
+
                     trigger: function (event, data) {
                         return this.each((i, elem) => {
                             // Optimize: Use simple Event for common events without data
@@ -124,7 +124,7 @@
                             elem.dispatchEvent(evt);
                         });
                     },
-            
+
                     click: function (handler) {
                         if (!handler) {
                             this.elements[0]?.click();
@@ -132,7 +132,7 @@
                         }
                         return this.on('click', handler);
                     },
-            
+
                     submit: function (handler) {
                         if (!handler) {
                             this.elements[0]?.submit();
@@ -140,15 +140,15 @@
                         }
                         return this.on('submit', handler);
                     },
-            
+
                     change: function (handler) {
                         return this.on('change', handler);
                     },
-            
+
                     input: function (handler) {
                         return this.on('input', handler);
                     },
-            
+
                     focus: function (handler) {
                         if (!handler) {
                             this.elements[0]?.focus();
@@ -156,25 +156,25 @@
                         }
                         return this.on('focus', handler);
                     },
-            
+
                     blur: function (handler) {
                         return this.on('blur', handler);
                     },
-            
+
                     hover: function (handlerIn, handlerOut) {
                         return this.on('mouseenter', handlerIn).on('mouseleave', handlerOut || handlerIn);
                     },
-            
+
                     // NEW! Scroll event
                     scroll: function (handler) {
                         return this.on('scroll', handler);
                     },
-            
+
                     // NEW! Resize event
                     resize: function (handler) {
                         return this.on('resize', handler);
                     },
-            
+
         });
     };
     

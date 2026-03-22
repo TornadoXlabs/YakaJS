@@ -40,4 +40,3 @@
             }
             return this.each((i, elem) => elem.value = value);
         },
-

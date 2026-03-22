@@ -9,19 +9,22 @@
 !function(e){function t(e,n){if(!(this instanceof t))return new t(e,n)
 if(this.elements=[],"function"==typeof e)return"loading"!==document.readyState?e():document.addEventListener("DOMContentLoaded",e),this
 if(!e)return this
-if("string"==typeof e)if("<"===e[0]){const t=document.createElement("div")
-t.innerHTML=e.trim(),this.elements=Array.from(t.children)}else{const t=n||document
-this.elements=Array.from(t.querySelectorAll(e))}else e.nodeType?this.elements=[e]:Array.isArray(e)?this.elements=e:void 0!==e.length&&(this.elements=Array.from(e))
-return this}const n=new WeakMap
+if("string"==typeof e){if("<"===e[0]){const t=document.createElement("div")
+t.innerHTML=e,this.elements=[...t.children]}else this.elements=[...(n||document).querySelectorAll(e)]
+return this}return e.nodeType?(this.elements=[e],this):Array.isArray(e)?(this.elements=e,this):(void 0!==e.length&&(this.elements=[...e]),this)}const n=new WeakMap
 if(t.prototype={constructor:t,each(e){return this.elements.forEach((t,n)=>{e.call(t,n,t)}),this},get(e){return void 0===e?this.elements:this.elements[e]},first(){return new t(this.elements[0]??[])},last(){return new t(this.elements[this.elements.length-1]??[])},eq(e){const n=this.elements[e]
 return new t(void 0!==n?n:[])},text(e){return void 0===e?this.elements[0]?.textContent||"":this.each((t,n)=>n.textContent=e)},html(e,n=!1){return void 0===e?this.elements[0]?.innerHTML||"":this.each((o,r)=>{n&&t.security&&"function"==typeof t.security.sanitizeHtml?r.innerHTML=t.security.sanitizeHtml(e):n?r.textContent=e:r.innerHTML=e})},val(e){return void 0===e?this.elements[0]?.value||"":this.each((t,n)=>n.value=e)},attr(e,t){if("object"==typeof e){const t=Object.keys(e)
-return this.each((n,o)=>{t.forEach(t=>o.setAttribute(t,e[t]))})}return void 0===t?this.elements[0]?.getAttribute(e):this.each((n,o)=>o.setAttribute(e,t))},removeAttr(e){return this.each((t,n)=>n.removeAttribute(e))},data(e,t){return void 0===t?this.elements[0]?.dataset[e]:this.each((n,o)=>o.dataset[e]=t)},addClass(e,t){if(t){const n=[]
+return this.each((n,o)=>{t.forEach(t=>o.setAttribute(t,e[t]))})}return void 0===t?this.elements[0]?.getAttribute(e):this.each((n,o)=>o.setAttribute(e,t))},removeAttr(e){return this.each((t,n)=>n.removeAttribute(e))},data(e,t){return void 0===t?this.elements[0]?.dataset[e]:this.each((n,o)=>o.dataset[e]=t)},addClass(e,t){if(!t)return this.each((t,n)=>{e.split(" ").forEach(e=>n.classList.add(e))})
+const n=[]
 return this.elements.forEach(t=>{const o=e.split(" "),r={},a=getComputedStyle(t);["opacity","height","width","margin","padding"].forEach(e=>{r[e]=a[e]}),n.push({elem:t,classes:o,before:r})}),n.forEach(({elem:e,classes:t})=>{t.forEach(t=>e.classList.add(t))}),n.forEach(({elem:e,before:n})=>{const o=getComputedStyle(e),r=[]
-Object.keys(n).forEach(e=>{n[e]!==o[e]&&r.push(`${e} ${t}ms ease`)}),r.length>0&&(e.style.transition=r.join(", "),setTimeout(()=>e.style.transition="",t))}),this}return this.each((t,n)=>{e.split(" ").forEach(e=>n.classList.add(e))})},removeClass(e,t){if(!e)return console.warn("removeClass() with no arguments is deprecated. Use detach() to remove element from DOM."),this.each((e,t)=>t.remove())
-if(t){const n=[]
+Object.keys(n).forEach(e=>{n[e]!==o[e]&&r.push(`${e} ${t}ms ease`)}),r.length>0&&(e.style.transition=r.join(", "),setTimeout(()=>e.style.transition="",t))}),this},removeClass(e,t){if(!e)return console.warn("removeClass() with no arguments is deprecated. Use detach() to remove element from DOM."),this.each((e,t)=>t.remove())
+if(!t)return this.each((t,n)=>{e.split(" ").forEach(e=>n.classList.remove(e))})
+const n=[]
 return this.elements.forEach(t=>{const o=e.split(" "),r={},a=getComputedStyle(t);["opacity","height","width","margin","padding"].forEach(e=>{r[e]=a[e]}),n.push({elem:t,classes:o,before:r})}),n.forEach(({elem:e,classes:t})=>{t.forEach(t=>e.classList.remove(t))}),n.forEach(({elem:e,before:n})=>{const o=getComputedStyle(e),r=[]
-Object.keys(n).forEach(e=>{n[e]!==o[e]&&r.push(`${e} ${t}ms ease`)}),r.length>0&&(e.style.transition=r.join(", "),setTimeout(()=>e.style.transition="",t))}),this}return this.each((t,n)=>{e.split(" ").forEach(e=>n.classList.remove(e))})},toggleClass(e,n){return this.each(n?(o,r)=>{const a=r.classList.contains(e),s=new t(r)
-a?s.removeClass(e,n):s.addClass(e,n)}:(t,n)=>{e.split(" ").forEach(e=>n.classList.toggle(e))})},hasClass(e){return this.elements[0]?.classList.contains(e)||!1},detach(){return this.each((e,t)=>t.remove())},css(e,t){return"object"==typeof e?this.each((t,n)=>{Object.assign(n.style,e)}):void 0===t?getComputedStyle(this.elements[0])?.[e]:this.each((n,o)=>o.style[e]=t)},show(){return this.each((e,t)=>t.style.display="")},hide(){return this.each((e,t)=>t.style.display="none")},fadeIn(e=300){return this.each((t,n)=>{n.style.opacity="0",n.style.display="",n.style.transition=`opacity ${e}ms`,setTimeout(()=>n.style.opacity="1",10)})},fadeOut(e=300){return this.each((t,n)=>{n.style.transition=`opacity ${e}ms`,n.style.opacity="0",setTimeout(()=>n.style.display="none",e)})},slideDown(e=300){return this.each((t,n)=>{n.style.overflow="hidden",n.style.height="0",n.style.display=""
+Object.keys(n).forEach(e=>{n[e]!==o[e]&&r.push(`${e} ${t}ms ease`)}),r.length>0&&(e.style.transition=r.join(", "),setTimeout(()=>e.style.transition="",t))}),this},toggleClass(e,n){return this.each(n?(o,r)=>{const a=r.classList.contains(e),s=new t(r)
+a?s.removeClass(e,n):s.addClass(e,n)}:(t,n)=>{e.split(" ").forEach(e=>n.classList.toggle(e))})},hasClass(e){return this.elements[0]?.classList.contains(e)||!1},detach(){return this.each((e,t)=>t.remove())},css(e,t){if("object"==typeof e)return this.each((t,n)=>{Object.assign(n.style,e)})
+if(void 0===t){const t=this.elements[0]
+return t?getComputedStyle(t)[e]:""}return this.each((n,o)=>o.style[e]=t)},show(){return this.each((e,t)=>t.style.display="")},hide(){return this.each((e,t)=>t.style.display="none")},fadeIn(e=300){return this.each((t,n)=>{n.style.opacity="0",n.style.display="",n.style.transition=`opacity ${e}ms`,setTimeout(()=>n.style.opacity="1",10)})},fadeOut(e=300){return this.each((t,n)=>{n.style.transition=`opacity ${e}ms`,n.style.opacity="0",setTimeout(()=>n.style.display="none",e)})},slideDown(e=300){return this.each((t,n)=>{n.style.overflow="hidden",n.style.height="0",n.style.display=""
 const o=n.scrollHeight
 n.style.transition=`height ${e}ms`,setTimeout(()=>n.style.height=o+"px",10),setTimeout(()=>{n.style.height="",n.style.overflow=""},e)})},slideUp(e=300){return this.each((t,n)=>{n.style.overflow="hidden",n.style.height=n.scrollHeight+"px",n.style.transition=`height ${e}ms`,setTimeout(()=>n.style.height="0",10),setTimeout(()=>n.style.display="none",e)})},animate(e,t=400,n="ease"){return this.each((o,r)=>{const a=e=>{if(!e)return null
 if(e.startsWith("#")){const t=e.substring(1)
@@ -48,13 +51,13 @@ const o=new t(n)
 return e?o.filter(e):o},siblings(){const e=[]
 return this.each((t,n)=>{const o=n.parentNode
 o&&Array.from(o.children).forEach(t=>{t===n||e.includes(t)||e.push(t)})}),new t(e)},next(){return new t(this.elements.map(e=>e.nextElementSibling).filter(Boolean))},prev(){return new t(this.elements.map(e=>e.previousElementSibling).filter(Boolean))},find(e){const n=[]
-return this.each((t,o)=>{n.push(...Array.from(o.querySelectorAll(e)))}),new t(n)},filter(e){return new t(this.elements.filter(t=>t.matches(e)))},closest(e){return new t(this.elements.map(t=>t.closest(e)).filter(Boolean))},is(e){return this.elements[0]?.matches(e)||!1},on(e,t,o){return"function"==typeof t&&(o=t,t=null),this.each((r,a)=>{if(t){const r=e=>{const n=e.target.closest(t)
+return this.each((t,o)=>{n.push(...o.querySelectorAll(e))}),new t(n)},filter(e){return new t(this.elements.filter(t=>t.matches(e)))},closest(e){return new t(this.elements.map(t=>t.closest(e)).filter(Boolean))},is(e){return this.elements[0]?.matches(e)||!1},on(e,t,o){return"function"==typeof t&&(o=t,t=null),this.each((r,a)=>{if(t){const r=e=>{const n=e.target.closest(t)
 n&&a.contains(n)&&o.call(n,e)}
 n.has(o)||n.set(o,new WeakMap)
 const s=n.get(o)
 s.has(a)||s.set(a,new Map),s.get(a).set(`${e}:${t}`,r),a.addEventListener(e,r)}else a.addEventListener(e,o)})},off(e,t,o){return"function"==typeof t&&(o=t,t=null),this.each((r,a)=>{if(t&&n.has(o)){const r=n.get(o)
 if(r.has(a)){const n=r.get(a),o=`${e}:${t}`,s=n.get(o)
-s&&(a.removeEventListener(e,s),n.delete(o))}}else a.removeEventListener(e,o)})},once(e,t){return this.each((n,o)=>{o.addEventListener(e,t,{once:!0})})},trigger(e,t){return this.each((n,o)=>{const r=new CustomEvent(e,{bubbles:!0,detail:t})
+s&&(a.removeEventListener(e,s),n.delete(o))}}else a.removeEventListener(e,o)})},once(e,t){return this.each((n,o)=>{o.addEventListener(e,t,{once:!0})})},trigger(e,t){return this.each((n,o)=>{const r=void 0!==t?new CustomEvent(e,{bubbles:!0,detail:t}):new Event(e,{bubbles:!0})
 o.dispatchEvent(r)})},click(e){return e?this.on("click",e):(this.elements[0]?.click(),this)},submit(e){return e?this.on("submit",e):(this.elements[0]?.submit(),this)},change(e){return this.on("change",e)},input(e){return this.on("input",e)},focus(e){return e?this.on("focus",e):(this.elements[0]?.focus(),this)},blur(e){return this.on("blur",e)},hover(e,t){return this.on("mouseenter",e).on("mouseleave",t||e)},scroll(e){return this.on("scroll",e)},resize(e){return this.on("resize",e)},debounce(e,t,n=300){return this.each((o,r)=>{let a
 r.addEventListener(e,e=>{clearTimeout(a),a=setTimeout(()=>t.call(r,e),n)})})},throttle(e,t,n=300){return this.each((o,r)=>{let a=0
 r.addEventListener(e,e=>{const o=Date.now()
@@ -409,13 +412,25 @@ e.addEventListener("click",t),a.push({th:e,handler:t})})}
 i()})},t.prototype.autocomplete=function(e,t={}){return this.each((n,o)=>{if(!e||!Array.isArray(e))return void console.error("autocomplete requires a data array")
 if(o._yaka_autocomplete)return
 o._yaka_autocomplete=!0
-const r=document.createElement("div")
-r.style.cssText="\n                position: absolute;\n                background: white;\n                border: 1px solid #ddd;\n                border-radius: 8px;\n                max-height: 200px;\n                overflow-y: auto;\n                box-shadow: 0 4px 12px rgba(0,0,0,0.1);\n                display: none;\n                z-index: 1000;\n            ",o.parentNode.style.position="relative",o.parentNode.appendChild(r)
-const a=()=>{const n=o.value.toLowerCase()
-if(!n)return void(r.style.display="none")
-const a=e.filter(e=>e.toLowerCase().includes(n))
-a.length>0?(r.innerHTML=a.map(e=>`<div style="padding: 10px; cursor: pointer; border-bottom: 1px solid #f0f0f0;" class="autocomplete-item">${e}</div>`).join(""),r.style.display="block",r.querySelectorAll(".autocomplete-item").forEach(e=>{e.addEventListener("click",()=>{o.value=e.textContent,r.style.display="none",t.onSelect&&t.onSelect(e.textContent)})})):r.style.display="none"},s=e=>{e.target===o||r.contains(e.target)||(r.style.display="none")}
-o.addEventListener("input",a),document.addEventListener("click",s),o._yaka_autocomplete_cleanup=()=>{o.removeEventListener("input",a),document.removeEventListener("click",s),r.remove(),delete o._yaka_autocomplete,delete o._yaka_autocomplete_cleanup}})},t.prototype.colorPicker=function(e){return this.each((t,n)=>{if(n._yaka_colorpicker)return
+const r=void 0!==t.minChars?t.minChars:1,a=void 0!==t.maxResults?t.maxResults:1/0,s=void 0!==t.noResults?t.noResults:""
+let i=-1
+const l=document.createElement("div")
+l.style.cssText="\n                position: absolute;\n                background: white;\n                border: 1px solid #ddd;\n                border-radius: 8px;\n                max-height: 200px;\n                overflow-y: auto;\n                box-shadow: 0 4px 12px rgba(0,0,0,0.1);\n                display: none;\n                z-index: 1000;\n                width: 100%;\n                box-sizing: border-box;\n            "
+const c=e=>(e+"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;"),d=()=>Array.from(l.querySelectorAll(".autocomplete-item")),p=e=>{d().forEach((t,n)=>{t.style.background=n===e?"#f0f0ff":""}),i=e},u=()=>{l.style.display="none",i=-1},h=e=>{o.value=e,u(),t.onSelect&&t.onSelect(e)}
+o.parentNode.style.position="relative",o.parentNode.appendChild(l)
+const m=()=>{const t=o.value,n=t.toLowerCase()
+if(r>t.length)return void u()
+let d=e.filter(e=>(e+"").toLowerCase().includes(n))
+if(1/0>a&&(d=d.slice(0,a)),l.innerHTML="",i=-1,d.length>0)d.forEach(e=>{const n=document.createElement("div")
+n.className="autocomplete-item",n.style.cssText="padding:10px;cursor:pointer;border-bottom:1px solid #f0f0f0;",n.innerHTML=((e,t)=>{const n=c(e),o=c(t)
+if(!o)return n
+const r=RegExp("("+o.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","gi")
+return n.replace(r,'<mark style="background:rgba(99,102,241,0.15);border-radius:2px;padding:0 1px;">$1</mark>')})(e+"",t),n.addEventListener("mousedown",t=>{t.preventDefault(),h(e+"")}),l.appendChild(n)}),l.style.display="block"
+else if(s){const e=document.createElement("div")
+e.style.cssText="padding:10px;color:#999;font-style:italic;",e.textContent=s,l.appendChild(e),l.style.display="block"}else u()},y=e=>{if("none"===l.style.display)return
+const t=d()
+"ArrowDown"===e.key?(e.preventDefault(),p(Math.min(i+1,t.length-1))):"ArrowUp"===e.key?(e.preventDefault(),p(Math.max(i-1,0))):"Enter"===e.key?i>=0&&t[i]&&(e.preventDefault(),h(t[i].textContent)):"Escape"===e.key&&u()},f=e=>{e.target===o||l.contains(e.target)||u()}
+o.addEventListener("input",m),o.addEventListener("keydown",y),document.addEventListener("click",f),o._yaka_autocomplete_cleanup=()=>{o.removeEventListener("input",m),o.removeEventListener("keydown",y),document.removeEventListener("click",f),l.remove(),delete o._yaka_autocomplete,delete o._yaka_autocomplete_cleanup}})},t.prototype.colorPicker=function(e){return this.each((t,n)=>{if(n._yaka_colorpicker)return
 n._yaka_colorpicker=!0
 const o=document.createElement("input")
 o.type="color",o.style.display="none",n.appendChild(o)
