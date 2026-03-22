@@ -20,7 +20,7 @@
         
         // Execute plugin code
             // ==================== 3. ADVANCED VALIDATION FRAMEWORK ====================
-        
+
             Yaka.validator = {
                 rules: {
                     required: (value) => value !== null && value !== undefined && value !== '',
@@ -63,7 +63,7 @@
                         return sum % 10 === 0;
                     }
                 },
-        
+
                 messages: {
                     required: 'This field is required',
                     email: 'Please enter a valid email address',
@@ -81,17 +81,17 @@
                     phone: 'Please enter a valid phone number',
                     creditCard: 'Please enter a valid credit card number'
                 },
-        
+
                 // Add custom rule
                 addRule(name, validator, message) {
                     this.rules[name] = validator;
                     this.messages[name] = message;
                 },
-        
+
                 // Validate single value
                 validate(value, rules, formData = {}) {
                     const errors = [];
-        
+
                     for (const [ruleName, ruleValue] of Object.entries(rules)) {
                         const validator = this.rules[ruleName];
                         
@@ -99,7 +99,7 @@
                             Yaka._log('warn', `Unknown validation rule: ${ruleName}`);
                             continue;
                         }
-        
+
                         let isValid;
                         if (typeof ruleValue === 'boolean' && ruleValue) {
                             isValid = validator(value);
@@ -108,7 +108,7 @@
                         } else {
                             isValid = validator(value, ruleValue);
                         }
-        
+
                         if (!isValid) {
                             let message = rules.message || this.messages[ruleName] || 'Invalid value';
                             // Replace placeholders
@@ -116,10 +116,10 @@
                             errors.push(message);
                         }
                     }
-        
+
                     return errors;
                 },
-        
+
                 // Async validation
                 async validateAsync(value, asyncValidator) {
                     try {
@@ -130,34 +130,34 @@
                     }
                 }
             };
-        
+
             // Enhanced form validation
             Yaka.prototype.validateForm = function(schema, options = {}) {
                 const { realTime = false, showErrors = true } = options;
                 const form = this.elements[0];
                 if (!form) return { valid: true, errors: {} };
-        
+
                 const errors = {};
                 let valid = true;
-        
+
                 // Get all form data
                 const formData = {};
                 form.querySelectorAll('[name]').forEach(input => {
                     formData[input.name] = input.value;
                 });
-        
+
                 // Validate each field
                 Object.entries(schema).forEach(([fieldName, fieldRules]) => {
                     const input = form.querySelector(`[name="${fieldName}"]`);
                     if (!input) return;
-        
+
                     const value = input.value;
                     const fieldErrors = Yaka.validator.validate(value, fieldRules, formData);
-        
+
                     if (fieldErrors.length > 0) {
                         errors[fieldName] = fieldErrors;
                         valid = false;
-        
+
                         if (showErrors) {
                             // Add error class
                             input.classList.add('yaka-error');
@@ -179,7 +179,7 @@
                             errorElement.remove();
                         }
                     }
-        
+
                     // Real-time validation
                     if (realTime && !input._yakaValidationBound) {
                         input.addEventListener('blur', () => {
@@ -206,10 +206,10 @@
                         input._yakaValidationBound = true;
                     }
                 });
-        
+
                 return { valid, errors };
             };
-        
+
     };
     
     // Auto-register if Yaka is available

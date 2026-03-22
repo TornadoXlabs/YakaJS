@@ -20,7 +20,7 @@
         
         // Execute plugin code
             // ==================== 2. ADVANCED ROUTING ====================
-        
+
             // Enhanced router with nested routes, params, guards
             Yaka.Router = class {
                 constructor(options = {}) {
@@ -35,7 +35,7 @@
                     this.notFoundHandler = options.notFoundHandler || (() => console.warn('404: Route not found'));
                     this.baseUrl = options.baseUrl || '';
                 }
-        
+
                 // Add route with pattern matching
                 addRoute(path, config) {
                     const { component, handler, children, beforeEnter, name, redirect } = config;
@@ -51,7 +51,7 @@
                         })
                         .replace(/\*/g, '.*')  // Wildcard becomes .* in regex
                         .replace(/\//g, '\\/');  // Escape forward slashes for regex
-        
+
                     this.routes.push({
                         path,
                         pattern: new RegExp(`^${pattern}$`),
@@ -63,10 +63,10 @@
                         name,
                         redirect
                     });
-        
+
                     return this;
                 }
-        
+
                 // Batch add routes
                 addRoutes(routes) {
                     Object.entries(routes).forEach(([path, config]) => {
@@ -74,18 +74,18 @@
                     });
                     return this;
                 }
-        
+
                 // Add global guards
                 beforeEach(fn) {
                     this.guards.before.push(fn);
                     return this;
                 }
-        
+
                 afterEach(fn) {
                     this.guards.after.push(fn);
                     return this;
                 }
-        
+
                 // Match route
                 match(pathname) {
                     for (const route of this.routes) {
@@ -100,7 +100,7 @@
                     }
                     return null;
                 }
-        
+
                 // Parse query string
                 parseQuery(search) {
                     const query = {};
@@ -110,7 +110,7 @@
                     });
                     return query;
                 }
-        
+
                 // Navigate to path
                 async navigate(path, options = {}) {
                     const { replace = false, state = {} } = options;
@@ -119,7 +119,7 @@
                     
                     // Parse query
                     this.query = this.parseQuery(url.search);
-        
+
                     // Match route
                     const matched = this.match(pathname);
                     
@@ -128,10 +128,10 @@
                         this.notFoundHandler(pathname);
                         return false;
                     }
-        
+
                     const { route, params } = matched;
                     this.params = params;
-        
+
                     // Handle redirect
                     if (route.redirect) {
                         const redirectPath = typeof route.redirect === 'function'
@@ -139,7 +139,7 @@
                             : route.redirect;
                         return this.navigate(redirectPath, options);
                     }
-        
+
                     // Run global before guards
                     for (const guard of this.guards.before) {
                         const result = await guard(route, this.current);
@@ -148,7 +148,7 @@
                             return false;
                         }
                     }
-        
+
                     // Run route-specific guard
                     if (route.beforeEnter) {
                         const result = await route.beforeEnter(route, this.current);
@@ -157,7 +157,7 @@
                             return false;
                         }
                     }
-        
+
                     // Update history
                     const fullPath = this.baseUrl + path;
                     if (replace) {
@@ -165,7 +165,7 @@
                     } else {
                         history.pushState({ ...state, path: fullPath }, '', fullPath);
                     }
-        
+
                     // Render component
                     if (route.component) {
                         const target = route.target || '#app';
@@ -174,24 +174,24 @@
                             : route.component;
                         _(target).html(html);
                     }
-        
+
                     // Call handler
                     if (route.handler) {
                         route.handler(params, this.query);
                     }
-        
+
                     const previousRoute = this.current;
                     this.current = route;
-        
+
                     // Run after guards
                     for (const guard of this.guards.after) {
                         guard(route, previousRoute);
                     }
-        
+
                     Yaka._log('info', `Navigated to: ${pathname}`, { params, query: this.query });
                     return true;
                 }
-        
+
                 // Navigate by route name
                 navigateTo(name, params = {}, query = {}) {
                     const route = this.routes.find(r => r.name === name);
@@ -199,28 +199,28 @@
                         Yaka._log('error', `Route name not found: ${name}`);
                         return false;
                     }
-        
+
                     let path = route.path;
                     Object.entries(params).forEach(([key, value]) => {
                         path = path.replace(`:${key}`, value);
                     });
-        
+
                     const queryString = new URLSearchParams(query).toString();
                     const fullPath = queryString ? `${path}?${queryString}` : path;
-        
+
                     return this.navigate(fullPath);
                 }
-        
+
                 // Go back
                 back() {
                     history.back();
                 }
-        
+
                 // Go forward
                 forward() {
                     history.forward();
                 }
-        
+
                 // Initialize router
                 init() {
                     // Handle popstate (back/forward buttons)
@@ -231,17 +231,17 @@
                             this.navigate(window.location.pathname + window.location.search, { replace: true });
                         }
                     });
-        
+
                     // Handle initial load
                     this.navigate(window.location.pathname + window.location.search, { replace: true });
-        
+
                     return this;
                 }
             };
-        
+
             // Shorthand for creating router
             Yaka.createRouter = (options) => new Yaka.Router(options);
-        
+
     };
     
     // Auto-register if Yaka is available

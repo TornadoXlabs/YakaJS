@@ -33,4 +33,3 @@
         hide: function () {
             return this.each((i, elem) => elem.style.display = 'none');
         },
-

@@ -21,20 +21,20 @@
         // Add methods to Yaka prototype
         Object.assign(Yaka.prototype, {
                     // ==================== TRAVERSAL ====================
-            
+
                     parent: function () {
                         // Filter out null values when parent doesn't exist
                         const parents = [...new Set(this.elements.map(elem => elem.parentNode).filter(Boolean))];
                         return new Yaka(parents);
                     },
-            
+
                     children: function (selector) {
                         const children = [];
                         this.each((i, elem) => children.push(...Array.from(elem.children)));
                         const result = new Yaka(children);
                         return selector ? result.filter(selector) : result;
                     },
-            
+
                     siblings: function () {
                         const siblings = [];
                         this.each((i, elem) => {
@@ -49,17 +49,17 @@
                         });
                         return new Yaka(siblings);
                     },
-            
+
                     next: function () {
                         const nexts = this.elements.map(elem => elem.nextElementSibling).filter(Boolean);
                         return new Yaka(nexts);
                     },
-            
+
                     prev: function () {
                         const prevs = this.elements.map(elem => elem.previousElementSibling).filter(Boolean);
                         return new Yaka(prevs);
                     },
-            
+
                     find: function (selector) {
                         const found = [];
                         this.each((i, elem) => {
@@ -67,23 +67,23 @@
                         });
                         return new Yaka(found);
                     },
-            
+
                     filter: function (selector) {
                         const filtered = this.elements.filter(elem => elem.matches(selector));
                         return new Yaka(filtered);
                     },
-            
+
                     // NEW! Closest parent matching selector
                     closest: function (selector) {
                         const closest = this.elements.map(elem => elem.closest(selector)).filter(Boolean);
                         return new Yaka(closest);
                     },
-            
+
                     // NEW! Check if matches selector
                     is: function (selector) {
                         return this.elements[0]?.matches(selector) || false;
                     },
-            
+
         });
     };
     

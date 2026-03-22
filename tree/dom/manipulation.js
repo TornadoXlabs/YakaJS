@@ -21,7 +21,7 @@
         // Add methods to Yaka prototype
         Object.assign(Yaka.prototype, {
                     // ==================== DOM MANIPULATION ====================
-            
+
                     append: function (content) {
                         return this.each((i, elem) => {
                             if (typeof content === 'string') {
@@ -33,7 +33,7 @@
                             }
                         });
                     },
-            
+
                     prepend: function (content) {
                         return this.each((i, elem) => {
                             if (typeof content === 'string') {
@@ -45,7 +45,7 @@
                             }
                         });
                     },
-            
+
                     after: function (content) {
                         return this.each((i, elem) => {
                             if (typeof content === 'string') {
@@ -55,7 +55,7 @@
                             }
                         });
                     },
-            
+
                     before: function (content) {
                         return this.each((i, elem) => {
                             if (typeof content === 'string') {
@@ -65,16 +65,16 @@
                             }
                         });
                     },
-            
+
                     empty: function () {
                         return this.each((i, elem) => elem.innerHTML = '');
                     },
-            
+
                     clone: function () {
                         const clones = this.elements.map(elem => elem.cloneNode(true));
                         return new Yaka(clones);
                     },
-            
+
                     // NEW! Replace element
                     replace: function (newContent) {
                         return this.each((i, elem) => {
@@ -89,7 +89,7 @@
                             }
                         });
                     },
-            
+
                     // NEW! Wrap element
                     wrap: function (wrapper) {
                         return this.each((i, elem) => {
@@ -104,7 +104,7 @@
                             wrapElem.appendChild(elem);
                         });
                     },
-            
+
         });
     };
     

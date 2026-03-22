@@ -21,7 +21,7 @@
         // Add methods to Yaka prototype
         Object.assign(Yaka.prototype, {
                     // ==================== ANIMATIONS (ENHANCED!) ====================
-            
+
                     fadeIn: function (duration = 300) {
                         return this.each((i, elem) => {
                             elem.style.opacity = '0';
@@ -30,7 +30,7 @@
                             setTimeout(() => elem.style.opacity = '1', 10);
                         });
                     },
-            
+
                     fadeOut: function (duration = 300) {
                         return this.each((i, elem) => {
                             elem.style.transition = `opacity ${duration}ms`;
@@ -38,7 +38,7 @@
                             setTimeout(() => elem.style.display = 'none', duration);
                         });
                     },
-            
+
                     slideDown: function (duration = 300) {
                         return this.each((i, elem) => {
                             elem.style.overflow = 'hidden';
@@ -53,7 +53,7 @@
                             }, duration);
                         });
                     },
-            
+
                     slideUp: function (duration = 300) {
                         return this.each((i, elem) => {
                             elem.style.overflow = 'hidden';
@@ -63,7 +63,7 @@
                             setTimeout(() => elem.style.display = 'none', duration);
                         });
                     },
-            
+
                     // NEW! Animate any CSS property (with color support)
                     animate: function (props, duration = 400, easing = 'ease') {
                         return this.each((i, elem) => {
@@ -100,7 +100,7 @@
                                 }
                                 return null;
                             };
-            
+
                             // Check for color properties
                             const colorProps = ['color', 'backgroundColor', 'borderColor'];
                             const hasColorAnimation = Object.keys(props).some(key => colorProps.includes(key));
@@ -163,7 +163,7 @@
                             }
                         });
                     },
-            
+
                     // NEW! Pulse animation
                     pulse: function (times = 3) {
                         return this.each((i, elem) => {
@@ -179,7 +179,7 @@
                             }, 150);
                         });
                     },
-            
+
                     // NEW! Shake animation
                     shake: function () {
                         return this.each((i, elem) => {
@@ -187,7 +187,7 @@
                             setTimeout(() => elem.style.animation = '', 500);
                         });
                     },
-            
+
                     // NEW! Bounce animation
                     bounce: function (times = 3) {
                         return this.each((i, elem) => {
@@ -195,7 +195,7 @@
                             setTimeout(() => elem.style.animation = '', 500 * times);
                         });
                     },
-            
+
                     // NEW! Flip 3D animation
                     flip: function (axis = 'Y', duration = 600) {
                         return this.each((i, elem) => {
@@ -206,7 +206,7 @@
                             setTimeout(() => elem.style.transform = '', duration);
                         });
                     },
-            
+
                     // NEW! Zoom in animation
                     zoomIn: function (duration = 400) {
                         return this.each((i, elem) => {
@@ -220,7 +220,7 @@
                             }, 10);
                         });
                     },
-            
+
                     // NEW! Zoom out animation
                     zoomOut: function (duration = 400) {
                         return this.each((i, elem) => {
@@ -230,7 +230,7 @@
                             setTimeout(() => elem.style.display = 'none', duration);
                         });
                     },
-            
+
                     // NEW! Swing animation
                     swing: function () {
                         return this.each((i, elem) => {
@@ -239,7 +239,7 @@
                             setTimeout(() => elem.style.animation = '', 800);
                         });
                     },
-            
+
                     // NEW! Rotate in animation
                     rotateIn: function (duration = 600) {
                         return this.each((i, elem) => {
@@ -253,7 +253,7 @@
                             }, 10);
                         });
                     },
-            
+
                     // NEW! Rotate out animation
                     rotateOut: function (duration = 600) {
                         return this.each((i, elem) => {
@@ -263,7 +263,7 @@
                             setTimeout(() => elem.style.display = 'none', duration);
                         });
                     },
-            
+
                     // NEW! Blur transition animation
                     blurIn: function (duration = 400) {
                         return this.each((i, elem) => {
@@ -277,7 +277,7 @@
                             }, 10);
                         });
                     },
-            
+
                     // NEW! Blur out animation
                     blurOut: function (duration = 400) {
                         return this.each((i, elem) => {
@@ -287,7 +287,7 @@
                             setTimeout(() => elem.style.display = 'none', duration);
                         });
                     },
-            
+
                     // NEW! Slide in from directions
                     slideInLeft: function (duration = 400) {
                         return this.each((i, elem) => {
@@ -301,7 +301,7 @@
                             }, 10);
                         });
                     },
-            
+
                     slideInRight: function (duration = 400) {
                         return this.each((i, elem) => {
                             elem.style.transform = 'translateX(100%)';
@@ -314,7 +314,7 @@
                             }, 10);
                         });
                     },
-            
+
                     slideInUp: function (duration = 400) {
                         return this.each((i, elem) => {
                             elem.style.transform = 'translateY(100%)';
@@ -327,7 +327,7 @@
                             }, 10);
                         });
                     },
-            
+
                     slideOutLeft: function (duration = 400) {
                         return this.each((i, elem) => {
                             elem.style.transition = `transform ${duration}ms, opacity ${duration}ms`;
@@ -336,7 +336,7 @@
                             setTimeout(() => elem.style.display = 'none', duration);
                         });
                     },
-            
+
                     slideOutRight: function (duration = 400) {
                         return this.each((i, elem) => {
                             elem.style.transition = `transform ${duration}ms, opacity ${duration}ms`;
@@ -345,7 +345,7 @@
                             setTimeout(() => elem.style.display = 'none', duration);
                         });
                     },
-            
+
                     // NEW! Rubber band animation
                     rubberBand: function () {
                         return this.each((i, elem) => {
@@ -353,7 +353,7 @@
                             setTimeout(() => elem.style.animation = '', 800);
                         });
                     },
-            
+
         });
     };
     

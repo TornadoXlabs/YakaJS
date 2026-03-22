@@ -34,4 +34,3 @@
             const elem = this.elements[index];
             return new Yaka(elem !== undefined ? elem : []);
         },
-

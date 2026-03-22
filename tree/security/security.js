@@ -20,7 +20,7 @@
         
         // Execute plugin code
             // ==================== 4. SECURITY UTILITIES ====================
-        
+
             Yaka.security = {
                 // XSS sanitization
                 sanitizeHtml(html) {
@@ -28,7 +28,7 @@
                     div.textContent = html;
                     return div.innerHTML;
                 },
-        
+
                 // Escape HTML entities
                 escapeHtml(text) {
                     const map = {
@@ -42,12 +42,12 @@
                     };
                     return String(text).replace(/[&<>"'/\\]/g, (char) => map[char]);
                 },
-        
+
                 // CSRF token management
                 csrf: {
                     _token: null,
                     _headerName: 'X-CSRF-Token',
-        
+
                     setToken(token) {
                         this._token = token;
                         // Store in meta tag
@@ -60,7 +60,7 @@
                         meta.content = token;
                         Yaka._log('info', 'CSRF token set');
                     },
-        
+
                     getToken() {
                         if (this._token) return this._token;
                         
@@ -71,7 +71,7 @@
                         }
                         return this._token;
                     },
-        
+
                     // Add CSRF token to request
                     addToRequest(config) {
                         const token = this.getToken();
@@ -82,15 +82,15 @@
                         return config;
                     }
                 },
-        
+
                 // Content Security Policy helper
                 csp: {
                     nonce: null,
-        
+
                     setNonce(nonce) {
                         this.nonce = nonce;
                     },
-        
+
                     getNonce() {
                         if (this.nonce) return this.nonce;
                         
@@ -102,14 +102,14 @@
                         return this.nonce;
                     }
                 },
-        
+
                 // Sanitize input for SQL-like operations
                 sanitizeInput(input) {
                     return String(input)
                         .replace(/['";\\]/g, '')
                         .trim();
                 },
-        
+
                 // Validate and sanitize URL
                 sanitizeUrl(url) {
                     try {
@@ -124,12 +124,12 @@
                     }
                 }
             };
-        
+
             // Auto-add CSRF token to all HTTP requests
             Yaka.http.addRequestInterceptor((config) => {
                 return Yaka.security.csrf.addToRequest(config);
             });
-        
+
     };
     
     // Auto-register if Yaka is available

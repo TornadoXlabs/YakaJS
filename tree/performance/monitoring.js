@@ -20,12 +20,12 @@
         
         // Execute plugin code
             // ==================== 6. PERFORMANCE MONITORING ====================
-        
+
             Yaka.performance = {
                 marks: {},
                 measures: {},
                 _observers: [],
-        
+
                 // Start performance mark
                 mark(name) {
                     this.marks[name] = performance.now();
@@ -33,7 +33,7 @@
                         performance.mark(name);
                     }
                 },
-        
+
                 // Measure performance between marks
                 measure(name, startMark, endMark) {
                     const start = this.marks[startMark];
@@ -43,10 +43,10 @@
                         Yaka._log('warn', `Start mark not found: ${startMark}`);
                         return null;
                     }
-        
+
                     const duration = end - start;
                     this.measures[name] = duration;
-        
+
                     if (performance.measure) {
                         try {
                             performance.measure(name, startMark, endMark);
@@ -54,17 +54,17 @@
                             // Ignore if marks don't exist in Performance API
                         }
                     }
-        
+
                     Yaka._log('info', `Performance: ${name}`, `${duration.toFixed(2)}ms`);
                     return duration;
                 },
-        
+
                 // Get FPS
                 getFPS(callback, duration = 1000) {
                     let frames = 0;
                     let lastTime = performance.now();
                     const startTime = lastTime;
-        
+
                     const countFrame = (currentTime) => {
                         frames++;
                         
@@ -75,10 +75,10 @@
                             callback(fps);
                         }
                     };
-        
+
                     requestAnimationFrame(countFrame);
                 },
-        
+
                 // Monitor long tasks
                 observeLongTasks(callback) {
                     if ('PerformanceObserver' in window) {
@@ -99,7 +99,7 @@
                         }
                     }
                 },
-        
+
                 // Get performance report
                 getReport() {
                     const report = {
@@ -108,7 +108,7 @@
                         memory: null,
                         navigation: null
                     };
-        
+
                     if (performance.memory) {
                         report.memory = {
                             usedJSHeapSize: (performance.memory.usedJSHeapSize / 1048576).toFixed(2) + ' MB',
@@ -116,7 +116,7 @@
                             limit: (performance.memory.jsHeapSizeLimit / 1048576).toFixed(2) + ' MB'
                         };
                     }
-        
+
                     if (performance.getEntriesByType) {
                         const navEntries = performance.getEntriesByType('navigation');
                         if (navEntries.length > 0) {
@@ -129,10 +129,10 @@
                             };
                         }
                     }
-        
+
                     return report;
                 },
-        
+
                 // Clear all performance data
                 clear() {
                     this.marks = {};
@@ -145,7 +145,7 @@
                     }
                 }
             };
-        
+
     };
     
     // Auto-register if Yaka is available

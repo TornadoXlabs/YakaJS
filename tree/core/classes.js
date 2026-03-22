@@ -150,4 +150,3 @@
         detach: function () {
             return this.each((i, elem) => elem.remove());
         },
-
